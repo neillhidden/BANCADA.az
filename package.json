@@ -15,8 +15,9 @@
     "test:pages": "playwright test --config playwright.pages.config.js"
   },
   "devDependencies": {
-    "vite": "7.3.1",
-    "@playwright/test": "1.58.2"
+    "@fontsource/inter": "5.3.0",
+    "@playwright/test": "1.58.2",
+    "vite": "7.3.1"
   },
   "engines": {
     "node": ">=24.0.0"

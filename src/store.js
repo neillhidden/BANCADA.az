@@ -9,7 +9,7 @@ export let products = [
   { id: 'tenis-casual', name: 'Ténis Casual', category: 'Moda', price: 28900, icon: '👟', tone: '#e5eafa', image: 'photo-1542291026-7eec264c27ff', tag: 'Um passo à frente', description: 'Um modelo versátil para combinar com os seus looks do dia a dia. Confirme o tamanho no pedido.', details: ['Estilo casual', 'Tamanho a confirmar por WhatsApp', 'Cor a confirmar'] },
   { id: 'candeeiro-de-mesa', name: 'Candeeiro de Mesa', category: 'Casa', price: 22500, icon: '💡', tone: '#f2e8d9', image: 'photo-1507473885765-e6ed057f782c', tag: 'A sua casa, mais sua', description: 'Uma luz de apoio para o seu canto de leitura ou espaço de trabalho. Um detalhe que transforma o ambiente.', details: ['Uso em interiores', 'Formato de mesa', 'Acabamento a confirmar'] }
 ];
-products.forEach(p => { p.demo = true; p.image = `/assets/${p.id}.svg`; });
+products.forEach(p => { p.demo = true; p.image = `/assets/${p.id}.webp`; });
 export function setProducts(value) { products = value; }
 export const money = amount => new Intl.NumberFormat('pt-AO', { style: 'currency', currency: 'AOA', maximumFractionDigits: 0 }).format(amount);
 export function normalizeCart(value) {

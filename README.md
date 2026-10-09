@@ -1,6 +1,6 @@
 # BANCADA.az
 
-Loja simples em português para vendas em Angola. Interface em azul escuro e laranja, inspirada nas referências fornecidas, com ilustrações locais de demonstração. Node.js 24+, Vite e SQLite, sem serviços externos obrigatórios.
+Loja simples em português para vendas em Angola. Interface minimalista em azul escuro e branco, com tipografia Inter servida localmente e imagens geradas de demonstração. O símbolo do logótipo foi retirado da interface; o nome da loja é apresentado apenas em texto. Node.js 24+, Vite e SQLite, sem serviços externos obrigatórios.
 
 ## Executar
 
@@ -20,7 +20,7 @@ Para desenvolvimento com atualização automática, mantenha `npm start` numa se
 1. Execute `npm run admin:create` no terminal. Informe o seu telefone e uma senha de pelo menos 12 caracteres nos prompts; a senha não é exibida. O comando também pode redefinir a senha de um administrador e invalida as sessões anteriores dessa conta.
 2. Abra **Conta**, entre com esse telefone e senha e escolha **Gerir produtos**.
 3. Cadastre nome, identificador único, preço em AOA, categoria, descrição, características e endereço HTTPS da foto. Pode editar e remover produtos. O identificador mantém o link estável.
-4. Remova os seis exemplos antes de anunciar produtos reais. Os exemplos são explicitamente marcados como demonstração e têm ilustrações, não fotografias de mercadoria real.
+4. Remova os seis exemplos antes de anunciar produtos reais. Os exemplos são explicitamente marcados como demonstração e têm imagens geradas para demonstração, não fotografias de mercadoria real.
 5. Use **Copiar link** para partilhar a página do produto em anúncios. Depois de publicar num domínio público, copie os links desse domínio. Links copiados numa máquina local só funcionam nessa máquina.
 
 Nenhuma conta de administrador ou senha padrão é criada automaticamente. As contas de clientes são criadas pelo botão **Cadastre-se**; apenas um administrador criado pelo terminal pode gerir o catálogo. Senhas são guardadas com scrypt e salt; sessões usam tokens aleatórios, armazenados no banco apenas como hash, com cookie HttpOnly e validade de sete dias. Há um limite básico para tentativas de login/cadastro por endereço de ligação.
