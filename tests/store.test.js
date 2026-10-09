@@ -1,0 +1,11 @@
+import { municipalities } from '../src/locations.js';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { products, cartTotal, normalizeCart, validateDelivery, whatsappLink, provinces } from '../src/store.js';
+const delivery={name:'Ana & João',phone:'+244 929 560 940',province:'Luanda',municipality:'Viana',address:'Rua 1, casa 8',reference:'Ao lado da escola',notes:'Cor azul'};
+test('cart rejects invalid, removed, duplicate and excessive quantities',()=>{assert.deepEqual(normalizeCart([{id:products[0].id,quantity:2},{id:products[0].id,quantity:3},{id:'removed',quantity:1},{id:products[1].id,quantity:-1},{id:products[2].id,quantity:100}]),[{id:products[0].id,quantity:2}]);assert.deepEqual(normalizeCart({}),[]);});
+test('subtotal uses catalog prices and quantities',()=>{assert.equal(cartTotal([{id:products[0].id,quantity:2},{id:products[1].id,quantity:1}]),68300);});
+test('delivery requires all fields and an Angolan phone and province',()=>{assert.deepEqual(validateDelivery(delivery),{});assert.equal(Object.keys(validateDelivery({})).length,6);assert.ok(validateDelivery({...delivery,phone:'123456789'}).phone);assert.ok(validateDelivery({...delivery,province:'Portugal'}).province);assert.deepEqual(provinces,['Luanda','Icolo e Bengo']);assert.ok(validateDelivery({...delivery,municipality:'Indisponível'}).municipality);});
+test('WhatsApp contains products, subtotal, all delivery fields and encoded notes',()=>{const url=new URL(whatsappLink([{id:products[0].id,quantity:2}],delivery));assert.equal(url.hostname,'wa.me');assert.equal(url.pathname,'/244929560940');const text=url.searchParams.get('text');for(const value of ['Ana & João','+244 929 560 940','Luanda','Viana','Rua 1, casa 8','Ao lado da escola','Cor azul',products[0].name,'× 2','confirmar'])assert.ok(text.includes(value),value);assert.throws(()=>whatsappLink([],delivery));assert.throws(()=>whatsappLink([{id:products[0].id,quantity:1}],{}));});
+
+test('delivery locations match the owner’s supplied service areas',()=>{assert.equal(municipalities.Luanda.length,16);assert.equal(municipalities['Icolo e Bengo'].length,7);assert.deepEqual(validateDelivery({...delivery,province:'Icolo e Bengo',municipality:'Catete'}),{});assert.ok(validateDelivery({...delivery,province:'Luanda',municipality:'Catete'}).municipality);});

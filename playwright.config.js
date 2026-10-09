@@ -1,0 +1,13 @@
+import { defineConfig } from '@playwright/test';
+import { mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { randomBytes } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+process.env.BANCADA_TEST_DATA_DIR ||= mkdtempSync(join(tmpdir(),'bancada-test-'));
+const database=process.env.BANCADA_TEST_DATA_DIR;
+process.env.BANCADA_TEST_ADMIN_PASSWORD ||= randomBytes(18).toString('hex');
+const env={...process.env,BANCADA_DATA_DIR:database,BANCADA_ADMIN_PHONE:'999111222',BANCADA_ADMIN_PASSWORD:process.env.BANCADA_TEST_ADMIN_PASSWORD};
+const setup=spawnSync(process.execPath,['server.mjs','--create-admin'],{env,encoding:'utf8'});
+if(setup.status!==0)throw new Error('Não foi possível preparar o administrador de teste.');
+export default defineConfig({testDir:'tests/browser',workers:1,reporter:'list',use:{baseURL:'http://127.0.0.1:3100',launchOptions:{executablePath:process.env.BANCADA_CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']},viewport:{width:1440,height:1000}},webServer:{command:'node server.mjs',url:'http://127.0.0.1:3100/api/products',env:{BANCADA_DATA_DIR:database,PORT:'3100'},reuseExistingServer:false}});
