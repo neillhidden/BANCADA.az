@@ -52,3 +52,9 @@ Os testes de navegador usam Chromium em `/usr/bin/chromium`; pode definir `BANCA
 Use um servidor com Node 24, HTTPS e armazenamento persistente para o diretório do banco; execute `npm ci`, `npm run build` e `NODE_ENV=production npm start`. Em produção o cookie de sessão exige HTTPS. Faça cópias de segurança do banco com as ferramentas de backup do SQLite, preservando a consistência de WAL. Nunca versione `.data`, senhas, cookies ou dados de clientes.
 
 Esta é a primeira versão: recuperação automática de senha, histórico de pedidos e pagamentos online não estão implementados. Para redefinir a senha de um cliente, será necessário um fluxo administrativo adicional; não exponha o comando de administração no site. Antes de abrir ao público, configure hospedagem, domínio, fotos/produtos reais, política de privacidade e o administrador.
+
+## Front-end no GitHub Pages
+
+`npm run build:pages` cria uma versão estática em `dist-pages/`, com caminhos relativos compatíveis com `https://neillhidden.github.io/BANCADA.az/`. O catálogo de exemplo, as páginas de produto, os links para anúncios, o carrinho e o checkout por WhatsApp funcionam sem servidor. **Meus dados** guarda somente o perfil de entrega no navegador; cadastro/login e administração com SQLite continuam disponíveis na versão com servidor, não no Pages. Nesta versão, os produtos vêm de `src/store.js`; alterações feitas no banco do servidor não são sincronizadas automaticamente com o Pages.
+
+O branch `gh-pages` contém exclusivamente os arquivos públicos gerados. Em **Settings → Pages**, selecione **Deploy from a branch**, branch **gh-pages**, pasta **/(root)** e guarde. O workflow `.github/workflows/pages.yml` atualiza esse branch após alterações em `main`, sem copiar o banco ou credenciais. Se as ações estiverem desativadas, habilite-as no repositório. Para validar esta versão sob o subdiretório do projeto, execute `npm run build:pages` e `npm run test:pages`.
